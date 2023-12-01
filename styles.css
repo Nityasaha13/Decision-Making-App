@@ -1,0 +1,27 @@
+*{
+    margin:0;
+    padding: 0;
+}
+
+.header-elements{
+    background-color: rgb(5, 205, 205);
+    padding: 4rem;
+    display: flex;
+    align-items: center;
+}
+
+.header-img img{
+    border-radius: 50%;
+    width: 13rem;
+    margin-left: 90%;
+}
+
+.heading-txt{
+    font-size: 6rem;
+    font-weight: bolder;
+}
+
+.sub-heading{
+    font-size: 2rem;
+    padding-left: 5px;
+}
