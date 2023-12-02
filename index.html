@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <title>Decision Maker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -15,9 +18,96 @@
         <div class="heading-txt">Choice Bot</div>
         <div class="sub-heading">Let me decide for you</div>
       </div>
-        <div class="header-img"><img src="choice-bot.jpg" alt="error"></div>
+      <div class="header-img"><img src="choice-bot.jpg" alt="error"></div>
     </div>
   </header>
+  <section id="page1" style="display: block;">
+    <div class="input-part">
+      <h1>How many options do you have?</h1>
+      <input type="number" placeholder="Number of choices" id="input" class="choice-input"><br>
+      <input type="button" value="Next" onclick="showNextPage()" id="nextPage1" class="btn">
+    </div>
+  </section>
+
+  <section id="page2" style="display: none;">
+    <div class="input-part">
+      <h1>Enter your choices</h1>
+      <div id="input-boxes"></div>
+      <input type="button" value="Make a decision" onclick="submitChoices()" id="nextPage2" class="btn">
+    </div>
+  </section>
+
+  <section id="result" style="display: none;">
+    <div class="result-time">
+      <h1>If I were you, I would choose.. </h1>
+      <div class="display"></div>
+      <input type="button" value="Make another decision" onclick="backHome()" id="nextResult" class="btn">
+    </div>
+  </section>
+
+  <script>
+
+    document.addEventListener('keyup', function (event) {
+      // Check if the key pressed is Enter (key code 13)
+      if (event.keyCode === 13) {
+        // Get the currently displayed section
+        var currentPage = document.querySelector('section[style="display: block;"]');
+
+        // Find the button within the current section and click it
+        var currentButton = currentPage.querySelector('.btn');
+        if (currentButton) {
+          currentButton.click();
+        }
+      }
+    });
+
+    function showNextPage() {
+      const numberOfChoices = document.getElementById("input").value;
+      if (numberOfChoices > 0) {
+        document.getElementById("page1").style.display = "none";
+        document.getElementById("page2").style.display = "block";
+        createInputBoxes(numberOfChoices);
+      } else {
+        alert("Please enter a valid number of choices.");
+      }
+    }
+
+    function createInputBoxes(numberOfChoices) {
+      const inputBoxesContainer = document.getElementById("input-boxes");
+      inputBoxesContainer.innerHTML = "";
+
+      for (let i = 1; i <= numberOfChoices; i++) {
+        const inputBox = document.createElement("input");
+        inputBox.type = "text";
+        inputBox.placeholder = "Enter choice";
+        inputBox.className = "choice-input";
+        inputBoxesContainer.appendChild(inputBox);
+        inputBoxesContainer.appendChild(document.createElement("br"));
+      }
+    }
+
+    function submitChoices() {
+      const inputBoxes = document.querySelectorAll("#input-boxes .choice-input");
+      const selected = getRandomOption(inputBoxes);
+
+      document.getElementById("page2").style.display = "none";
+      document.getElementById("result").style.display = "block";
+
+      document.querySelector("#result .display").innerText = selected;
+    }
+
+    function getRandomOption(inputBoxes) {
+      const randomIndex = Math.floor(Math.random() * inputBoxes.length);
+      return inputBoxes[randomIndex].value;
+    }
+
+    function backHome() {
+      document.getElementById("page1").style.display = "block";
+      document.getElementById("page2").style.display = "none";
+      document.getElementById("result").style.display = "none";
+      document.getElementById("input").value = "";
+    }
+  </script>
 </body>
 
 </html>
